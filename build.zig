@@ -20,8 +20,8 @@ pub fn build(b: *std.Build) void {
     // running `zig build`).
 
     const exe = b.addExecutable(.{
-        .name = "salman",
-        .root_source_file = b.path("src/search.zig"),
+        .name = "pacdude",
+        .root_source_file = b.path("src/arg.zig"),
         .target = target,
         .optimize = optimize,
     });
@@ -30,6 +30,8 @@ pub fn build(b: *std.Build) void {
     // standard location when the user invokes the "install" step (the default
     // step when running `zig build`).
     b.installArtifact(exe);
+    const clap = b.dependency("clap", .{});
+    exe.root_module.addImport("clap", clap.module("clap"));
 
     // This *creates* a Run step in the build graph, to be executed when another
     // step is evaluated that depends on it. The next line below will establish
